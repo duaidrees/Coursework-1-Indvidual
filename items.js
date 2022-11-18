@@ -10,5 +10,5 @@ let items = [
     {id:09, subject: 'Music', location: 'London',price: "105",spaces: 7,image: 'img/music.png'},
     {id:10, subject: 'Science', location: 'Leeds',price: "165",spaces: 8,image: 'img/sci.png'},
     {id:11, subject: 'History', location: 'London',price: "185",spaces: 6,image: 'img/hist.png'},
-    {id:12, subject: 'CS', location: 'Leeds',price: "190",spaces: 9,image: 'img/icon.png'},
+    {id:12, subject: 'Computer', location: 'Leeds',price: "190",spaces: 9,image: 'img/cs.png'},
 ]
