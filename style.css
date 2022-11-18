@@ -1,6 +1,6 @@
 
 body{
-    background-color: whitesmoke;
+    background-color:white;
     padding: 0px;
     margin: 0px;
 }
@@ -21,6 +21,7 @@ body{
     padding: 0px;
 
 }
+/*Css for the menu/nav bar at the top of page*/
 .navbar{
     overflow: hidden;
     background-color:black;
@@ -28,25 +29,11 @@ body{
     margin :0px;
 }
 
+
 .dropdown {
     float: left;
-    overflow: hidden;
-    
+    overflow: hidden;  
   }
-
-  .navbtn {
-    float: left;
-    overflow: hidden;
-    font-size: 16px; 
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: black;
-    font-family: inherit; /* Important for vertical align on mobile phones */
-    margin: 0; /* Important for vertical align on mobile phones */
-    cursor: pointer;
-  }  
 
 .dropdown .dropbtn {
     font-size: 16px; 
@@ -79,11 +66,11 @@ body{
     
   }  
 
-
 .dropdown:hover .dropdown-content {
     display: block;
   }
 
+/*Button CSS for Sort Dropdown Menu */
 .btn-group button {
     background-color: #04AA6D; /* Green background */
     border: 1px solid #04AA6D; /* Green background */
@@ -97,6 +84,17 @@ body{
     border-right: none; /* Prevent double borders */
   }
 
+/*Css for the arrow for Sort*/
+.asc:after{
+  content: "\25B2"
+}
+
+.desc:after{
+  content: "\25BC"
+}
+
+
+/*Css for the content of lessons*/
 .content{
     align-items:baseline;
     display: grid;
@@ -104,8 +102,8 @@ body{
     grid-template-rows: auto auto;
 
 }
+/*Css for the box of lessons*/
 .box{
-
     border: 1px solid black;
     padding: 10px;
     display: grid;
@@ -117,6 +115,7 @@ body{
 
 }
 
+/*Css for Add to Cart button in each lesson*/
 .cartbutton{
     background-color: rgb(85, 207, 91);
     border: 1px solid rgb(85, 125, 207);
@@ -128,22 +127,17 @@ body{
     width: 90%;
 }
 
+/*Css for the serach bar in menu*/
 .search{
   font-family: inherit;
   margin: 0px;
   padding: 15px;
   width: 800px;
+  font-size: 15px;
 }
 
-.asc:after{
-  content: "\25B2"
-}
-
-.desc:after{
-  content: "\25BC"
-}
 
 .checkout{
   border: 1px solid black;
-  
+
 }
