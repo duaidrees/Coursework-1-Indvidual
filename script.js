@@ -52,6 +52,7 @@
             filteredsearch(){
                 if(this.search.trim().length>0){
                     return this.items.filter((item)=> item.subject.toLowerCase().includes(this.search.toLowerCase().trim()))}
+                    
                 }
             },
     })
