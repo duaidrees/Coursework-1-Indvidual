@@ -20,10 +20,10 @@
             </button>
             <div class="dropdown-content">
                 <div class="btn-group"> 
-                    <button v-on:click= "sort('alphaasc')" v-bind:class="[sortBy === 'name' ? sortDirection : '']">Alpha-Ascending</button></br>
-                    <button v-on:click= "sort('alphadsc')">Aplha-Descending</button></br>
-                    <button v-on:click= "sort('prclow')">Price-Lowest</button></br>
-                    <button v-on:click= "sort('prchigh')">Price-Highest</button></br>
+                    <button v-on:click= "sort('subject')" v-bind:class="[sortBy === 'subject' ? sortDirection:'']">Alphabetical</button></br>
+                    <button v-on:click= "sort('price')" v-bind:class="[sortBy === 'price' ? sortDirection : '']">Price</button></br>
+                    <button v-on:click= "sort('location')" v-bind:class="[sortBy === 'location' ? sortDirection : '']">Location</button></br>
+                    <button v-on:click= "sort('spaces')" v-bind:class="[sortBy === 'spaces' ? sortDirection : '']">Availablity</button></br>
                 </div>
             </div>
         </div>    
@@ -61,25 +61,27 @@
             </p>
         </div>
         <!--This section is for the  cart function-->
-        <div style = "white-space:pre" class="content">
-            <p v-if="page ==='cart'" v-for="(item,id) in cart" :key="item.id" class="box" >
-                <img  v-bind:src="item.image" style="margin-left: 60px;" alt="" width="60px" height="60px">
-                Subject: {{item.subject}}
-                Location: {{item.location}}
-                Price: {{item.price}}
-                </br>
-                <button class="cartbutton" v-on:click= "removeitem(item)" style="width: 150px;">Remove</button>
-                <div v-if="page ==='cart'">
-                    <h1>Checkout Out: </h1>
-                    <form name="checkout" onsubmit="return submitClick();">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" onkeydown="return alphaOnly(event)" required><br><br>
-                        <label for="tel">Phone:</label>
-                        <input type="tel" id="phone" name="phone" onkeypress="return onlyNumberKey(event)" required><br><br>
-                        <input type="submit" value="Submit">
-                    </form>
-                </div>
-            </p>
+        <div>
+            <div style = "white-space:pre" class="content">
+                <p v-if="page ==='cart'" v-for="(item,id) in cart" :key="item.id" class="box" style="width:200px" >
+                    <img  v-bind:src="item.image" style="margin-left: 60px;" alt="" width="60px" height="60px">
+                    Subject: {{item.subject}}
+                    Location: {{item.location}}
+                    Price: {{item.price}}
+                    </br>
+                    <button class="cartbutton" v-on:click= "removeitem(item)" style="width: 150px;">Remove</button>
+                </p>
+            </div>
+            <div class="checkout" v-if="page ==='cart'">
+                <h1>Checkout Out: </h1>
+                <form name="checkout" onsubmit="return submitClick();">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" onkeydown="return alphaOnly(event)" required><br><br>
+                    <label for="tel">Phone:</label>
+                    <input type="tel" id="phone" name="phone" onkeypress="return onlyNumberKey(event)" required><br><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
         </div>
 
     </div>
@@ -95,7 +97,7 @@
             items: items,
             cart:[],
             page: "items",
-            sortBy: 'name',
+            sortBy: '',
             sortDirection: 'asc',
             search:'',
         },
@@ -144,46 +146,47 @@
                     return this.items.filter((item)=> item.subject.toLowerCase().includes(this.search.toLowerCase().trim()))}
                 }
             },
-    }) 
+    })
     
-    //This function is used to validate the form and show alert message of sucessful registration//
-    function submitClick() {
-    if (formValidation()) {
-      alert("Registration Sucessfull!");
-      return true;
-    } else {
-      return false;
-    }
-  }
+        //This function is used to validate the form and show alert message of sucessful registration//
+        function submitClick() {
+            if (formValidation()) {
+                alert("Registration Sucessfull!");
+                return true;
+                } else {
+                return false;
+            }
+        }
 
-  //This function is used to validate the field of name and phone//
-  function formValidation() {
-    flag = true;
+        //This function is used to validate the field of name and phone//
+        function formValidation() {
+            flag = true;
 
-    // Validate letters only as Name
-    if (document.checkout.name.value == "") {
-      alert("Please fill in your Name!");
-      flag = false;
-    }
+            // Validate letters only as Name
+            if (document.checkout.name.value == "") {
+            alert("Please fill in your Name!");
+            flag = false;
+            }
 
-    // Validate letters only as Name
-    if (!/^[a-zA-Z]*$/g.test(document.checkout.name.value)) {
-      alert("Enter alphabetic characters as Name!");
-      flag = false;
-    }
+            // Validate letters only as Name
+            if (!/^[a-zA-Z]*$/g.test(document.checkout.name.value)) {
+            alert("Enter alphabetic characters as Name!");
+            flag = false;
+            }
 
-    // Validate Phone number
-    if (document.checkout.phone.value == "") {
-      alert("Please fill in your Phone Number!");
-      flag = false;
-    }
-    // Validate Numbers only as Phone
-    if (!/^[0-9]*$/g.test(checkout.phone.value)) {
-      alert("Enter numeric values as Phone Number!");
-      flag = false;
-    }
-    return flag;
-  }
+            // Validate Phone number
+            if (document.checkout.phone.value == "") {
+            alert("Please fill in your Phone Number!");
+            flag = false;
+            }
+            // Validate Numbers only as Phone
+            if (!/^[0-9]*$/g.test(checkout.phone.value)) {
+            alert("Enter numeric values as Phone Number!");
+            flag = false;
+            }
+            return flag;
+        }
+
 </script>
 
 </body>
