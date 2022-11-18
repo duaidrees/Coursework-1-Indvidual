@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coursework 1</title> 
+    <script src="items.js"></script>
+</head>
+<link href="style.css" rel='stylesheet'>
+
+<body>
+    <div class="pageheadingbox">
+        <h1 class="pageheading">After School Club </h1> 
+    </div>
+<div id="app">
+
+    <div class="navbar">
+        <div class="dropdown">
+            <button style="width: 150px;" class="dropbtn">SORT 
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <div class="btn-group"> 
+                    <button v-on:click= "sort('alphaasc')" v-bind:class="[sortBy === 'name' ? sortDirection : '']">Alpha-Ascending</button></br>
+                    <button v-on:click= "sort('alphadsc')">Aplha-Descending</button></br>
+                    <button v-on:click= "sort('prclow')">Price-Lowest</button></br>
+                    <button v-on:click= "sort('prchigh')">Price-Highest</button></br>
+                </div>
+            </div>
+        </div>    
+        <div class="dropdown">
+            <button v-if="cart.length>0"style="width: 150px;" class="dropbtn" v-on:click="navigateTo('cart')" >CART</button>
+            <button style="width: 150px;" class="dropbtn" v-on:click="navigateTo('items')" >LESSONS</button>
+            <input class="search" type="text" v-model="search" placeholder="Search"/>
+           
+        </div>
+    </div>
+ 
+    <div>
+      
+        <div style = "white-space:pre" class="content">
+            <p v-for="item in filteredsearch" :key="item.id" class="box" >
+                <img v-bind:src="item.image" style="margin-left: 60px;" alt="" width="60px" height="60px">
+                Subject: {{item.subject}}
+                Location: {{item.location}}
+                Price: {{item.price}}
+                Spaces: {{item.spaces}}
+                <br/>
+                <button class="cartbutton" v-on:click= "addtocart(item)" style="margin-left: 0px;" >Add to cart</button>
+            </p>
+        </div>
+   
+        <div style = "white-space:pre" class="content">
+            <p v-show="!search.length>0" v-if="page ==='items'" v-for="item in sorteditems" :key="item.id" class="box" >
+                <img v-bind:src="item.image" style="margin-left: 60px;" alt="" width="60px" height="60px">
+                Subject: {{item.subject}}
+                Location: {{item.location}}
+                Price: {{item.price}}
+                Spaces: {{item.spaces}}
+                <br/>
+                <button class="cartbutton" v-on:click= "addtocart(item)" style="margin-left: 0px;" >Add to cart</button>
+            </p>
+        </div>
+
+        <div style = "white-space:pre" class="content">
+            <p v-if="page ==='cart'" v-for="(item,id) in cart" :key="item.id" class="box" >
+                <img  v-bind:src="item.image" style="margin-left: 60px;" alt="" width="60px" height="60px">
+                Subject: {{item.subject}}
+                Location: {{item.location}}
+                Price: {{item.price}}
+                </br>
+                <button class="cartbutton" v-on:click= "removeitem(item)" style="width: 150px;">Remove</button>
+                <div v-if="page ==='cart'">
+                    <h1>Checkout Out: </h1>
+                    <form name="checkout" onsubmit="return submitClick();">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" onkeydown="return alphaOnly(event)" required><br><br>
+                        <label for="tel">Phone:</label>
+                        <input type="tel" id="phone" name="phone" onkeypress="return onlyNumberKey(event)" required><br><br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+        
+
+<script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data:{
+            items: items,
+            cart:[],
+            page: "items",
+            sortBy: 'name',
+            sortDirection: 'asc',
+            search:'',
+        },
+        methods: {
+
+            addtocart: function (item){
+                if(item.spaces >= 1 )
+                item.spaces = item.spaces - 1;
+                this.cart.push(item);
+                console.log(this.cart);
+                return item;
+            },
+           
+            removeitem: function (item){
+                this.cart.splice((item), 1);
+                item.spaces = item.spaces +1;
+                return item;
+            },
+         
+            navigateTo(page){
+                this.page= page;
+            },
+         
+            sort: function(s){
+                if(s === this.sortBy) {
+                    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                }
+                this.sortBy = s;
+            },
+        },
+
+        computed: {
+
+            sorteditems: function(){
+                return this.items.sort((p1,p2) => {
+                    let modifier = 1;
+                    if(this.sortDirection === 'desc') modifier = -1;
+                    if(p1[this.sortBy] < p2[this.sortBy]) return -1 * modifier; if(p1[this.sortBy] > p2[this.sortBy]) return 1 * modifier;
+                    return 0;
+                });
+            },
+
+       
+            filteredsearch(){
+                if(this.search.trim().length>0){
+                    return this.items.filter((item)=> item.subject.toLowerCase().includes(this.search.toLowerCase().trim()))}
+                }
+            },
+    }) 
+    
+
+    function submitClick() {
+    if (formValidation()) {
+      alert("Registration Sucessfull!");
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  
+  function formValidation() {
+    flag = true;
+
+
+    if (document.checkout.name.value == "") {
+      alert("Please fill in your Name!");
+      flag = false;
+    }
+
+    if (!/^[a-zA-Z]*$/g.test(document.checkout.name.value)) {
+      alert("Enter alphabetic characters as Name!");
+      flag = false;
+    }
+
+
+    if (document.checkout.phone.value == "") {
+      alert("Please fill in your Phone Number!");
+      flag = false;
+    }
+    if (!/^[0-9]*$/g.test(checkout.phone.value)) {
+      alert("Enter numeric values as Phone Number!");
+      flag = false;
+    }
+    return flag;
+  }
+</script>
+
+</body>
+</html>
